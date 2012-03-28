@@ -55,7 +55,7 @@ jsv_on_verify()
          amount=`jsv_get_param binding_exp_n`
       fi
 
-      if [ "`jsv_get_param pe_name`" = "mytestpe" ]; then
+      if [ "`jsv_get_param pe_name`" = "smp" ]; then
 
          # ------------------------------------------------
          # verify if requested slots equals requested cores
@@ -105,6 +105,13 @@ jsv_on_verify()
          # add a default request of one processor core
          # -------------------------------------------
 
+	 # this three lines to force to use "-pe smp 1" when no pe is specified
+	 # dirty hack to fit my needs
+	 # pescobar
+	 jsv_set_param pe_name "smp"
+	 jsv_set_param pe_max "1"
+	 jsv_set_param pe_min "1"
+
          # set the binding strategy to linear (without given start point: linear_automatic)
          jsv_set_param binding_type "set"
          jsv_set_param binding_amount "1"
@@ -113,7 +120,7 @@ jsv_on_verify()
          jsv_correct "Job was modified by JSV"
          return
 
-      elif [ "`jsv_get_param pe_name`" = "mytestpe" ]; then
+      elif [ "`jsv_get_param pe_name`" = "smp" ]; then
 
          # --------------------------------------------
          # "mytestpe" was requested but no core binding 
